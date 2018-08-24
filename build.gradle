@@ -78,6 +78,9 @@ dependencies {
 	deobfCompile('RebornCore:RebornCore-1.12.2:+:universal') {
 		transitive = false
 	}
+	deobfCompile('TechReborn:TechReborn-1.12.2:+:universal') {
+		transitive = false
+	}
 }
 
 jar {
