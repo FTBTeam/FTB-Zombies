@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import reborncore.RebornRegistry;
 import reborncore.common.network.RegisterPacketEvent;
 
-@Mod(modid = "ftbzombies", name = "FTB-Zombies", dependencies = "required-after:reborncore")
+@Mod(modid = "ftbzombies", name = "FTB-Zombies", dependencies = "required-after:reborncore;required-after:techreborn")
 public class FTBZombies {
 
 	BlockController blockController;
