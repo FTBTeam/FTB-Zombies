@@ -1,0 +1,19 @@
+[
+{
+  "modid": "ftbzombies",
+  "name": "FTB-Zombies",
+  "description": "A mod about making zombies no longer zombies",
+  "version": "$version",
+  "mcversion": "$mcversion",
+  "url": "https://github.com/FTBTeam/FTB-Zombies",
+  "updateUrl": "",
+  "authorList": [
+    "modmuss50"
+  ],
+  "credits": "Thanks to asie for some ideas I guess",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": ["reborncore"]
+}
+]
