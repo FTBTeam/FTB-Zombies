@@ -1,13 +1,14 @@
 package me.modmuss50.ftb.zombies;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import reborncore.common.network.ExtendedPacketBuffer;
 import reborncore.common.network.INetworkPacket;
 import techreborn.client.particle.ParticleSmoke;
@@ -38,6 +39,14 @@ public class PacketSpawnSmoke implements INetworkPacket<PacketSpawnSmoke> {
 
 	@Override
 	public void processData(PacketSpawnSmoke message, MessageContext context) {
+		if(context.side == Side.SERVER){
+			throw new RuntimeException("Packet cannot be hanled on the server!");
+		}
+		handleClient(context);
+	}
+
+	@SideOnly(Side.CLIENT)
+	private void handleClient(MessageContext context){
 		World world = Minecraft.getMinecraft().world;
 		Random random = new Random();
 		EnumDyeColor color = EnumDyeColor.BLACK;
@@ -58,7 +67,6 @@ public class PacketSpawnSmoke implements INetworkPacket<PacketSpawnSmoke> {
 
 			world.spawnParticle(EnumParticleTypes.FLAME, pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5, 0.0D, 0.0D, 0.0D);
 		}
-
 
 	}
 }
