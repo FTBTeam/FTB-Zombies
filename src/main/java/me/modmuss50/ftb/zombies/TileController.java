@@ -40,6 +40,9 @@ public class TileController extends TileLegacyMachineBase {
 		if (items.isEmpty()) {
 			return;
 		}
+		if (zombies.isEmpty()) {
+			return;
+		}
 
 		for (EntityItem item : items) {
 			if (!item.getItem().getItem().getRegistryName().toString().equals("techreborn:dynamiccell")) {
