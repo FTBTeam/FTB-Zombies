@@ -8,6 +8,8 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import reborncore.common.network.NetworkManager;
@@ -37,10 +39,18 @@ public class TileController extends TileLegacyMachineBase {
 		//Stops the villagers from being scared of the zombies
 		villagers.forEach(entityZombieVillager -> removeTask(entityZombieVillager, entityAIBase -> entityAIBase instanceof EntityAIAvoidEntity));
 
-		if (items.isEmpty()) {
+
+		if (zombies.isEmpty()) {
 			return;
 		}
-		if (zombies.isEmpty()) {
+
+		for(EntityZombieVillager zombieVillager : zombies) {
+			zombieVillager.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 60));
+			zombieVillager.enablePersistence();
+			zombieVillager.setAlwaysRenderNameTag(true);
+		}
+
+		if (items.isEmpty()) {
 			return;
 		}
 
@@ -53,7 +63,12 @@ public class TileController extends TileLegacyMachineBase {
 			EntityVillager newVillager = new EntityVillager(zombieVillager.world);
 			newVillager.setProfession(zombieVillager.getForgeProfession());
 			newVillager.setLocationAndAngles(zombieVillager.posX, zombieVillager.posY, zombieVillager.posZ, zombieVillager.rotationYaw, zombieVillager.rotationPitch);
+			if(zombieVillager.hasCustomName()){
+				newVillager.setCustomNameTag(zombieVillager.getCustomNameTag());
+				newVillager.setAlwaysRenderNameTag(true);
+			}
 			world.spawnEntity(newVillager);
+			newVillager.enablePersistence();
 
 			item.setDead();
 			zombieVillager.setDead();
