@@ -14,6 +14,6 @@
   "screenshots": [
   ],
   "parent":"",
-  "dependencies": ["reborncore"]
+  "dependencies": ["reborncore", "techreborn"]
 }
 ]
