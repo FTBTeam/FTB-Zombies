@@ -1,5 +1,6 @@
 package me.modmuss50.ftb.zombies;
 
+import me.modmuss50.ftb.zombies.timer.ClientHudRenderer;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -81,6 +82,11 @@ public class TileController extends TileLegacyMachineBase {
 				markDirty();
 			}
 		}
+
+		//This is a client side only mod, so this should be fine I guess
+		ClientHudRenderer.totalCount = zombies.size() + villagers.size();
+		ClientHudRenderer.savedCount = villagers.size();
+
 
 		if (zombies.isEmpty()) {
 			return;
