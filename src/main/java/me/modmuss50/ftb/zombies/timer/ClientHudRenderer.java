@@ -1,5 +1,6 @@
 package me.modmuss50.ftb.zombies.timer;
 
+import me.modmuss50.ftb.zombies.GameContoller;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -21,9 +22,7 @@ public class ClientHudRenderer {
 
 	public static int clientTick = 0;
 
-	//This doesnt care about the client/server
-	public static int savedCount;
-	public static int totalCount;
+
 
 	private static RenderGameOverlayEvent.ElementType[] disabled = new RenderGameOverlayEvent.ElementType[] {
 		RenderGameOverlayEvent.ElementType.BOSSHEALTH,
@@ -71,7 +70,7 @@ public class ClientHudRenderer {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 		fontRenderer.drawString("Remaining Time: " + Timer.getNiceTimeLeft(), xPos + 5, yPos + 1, Color.WHITE.getRGB());
-		fontRenderer.drawString("Saved zombies: " + savedCount + "/" + totalCount, xPos + 8, yPos + 11, Color.WHITE.getRGB());
+		fontRenderer.drawString("Saved zombies: " + GameContoller.savedCount + "/" + GameContoller.totalCount, xPos + 8, yPos + 11, Color.WHITE.getRGB());
 
 	}
 

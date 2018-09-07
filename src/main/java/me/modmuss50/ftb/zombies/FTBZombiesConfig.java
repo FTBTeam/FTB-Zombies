@@ -7,6 +7,7 @@ public class FTBZombiesConfig {
 	public static final General general = new General();
 
 	public static class General {
+		public String api_url = "https://go.alwa.io/";
 		public int controller_radius = 21;
 		public int controller_height = 22;
 		public int zombie_count = 10;

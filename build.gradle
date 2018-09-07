@@ -84,7 +84,7 @@ dependencies {
 }
 
 jar {
-	classifier = 'universal'
+	classifier = 'convention'
 	manifest {
 		attributes 'FMLAT': 'ftbbattles_at.cfg'
 		attributes 'FMLCorePlugin': 'me.modmuss50.ftbbattles.asm.LoadingPlugin'

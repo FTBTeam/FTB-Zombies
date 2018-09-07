@@ -1,6 +1,7 @@
 package me.modmuss50.ftb.zombies;
 
 import me.modmuss50.ftb.zombies.commands.FTBZCommand;
+import me.modmuss50.ftb.zombies.guiTweaks.GuiEventHandler;
 import me.modmuss50.ftb.zombies.timer.ClientHudRenderer;
 import me.modmuss50.ftb.zombies.timer.PacketSendTimerData;
 import me.modmuss50.ftb.zombies.timer.TimerEvent;
@@ -22,6 +23,7 @@ public class FTBZombies {
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(TimerEvent.class);
 		MinecraftForge.EVENT_BUS.register(new ClientHudRenderer());
+		MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
 	}
 
 	public void server(FMLServerStartingEvent event){

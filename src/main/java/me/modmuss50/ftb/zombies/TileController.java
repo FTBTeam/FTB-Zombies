@@ -1,6 +1,7 @@
 package me.modmuss50.ftb.zombies;
 
-import me.modmuss50.ftb.zombies.timer.ClientHudRenderer;
+import me.modmuss50.ftb.zombies.api.ZombieSave;
+import me.modmuss50.ftb.zombies.timer.TimerHandler;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -23,6 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import reborncore.common.network.NetworkManager;
 import reborncore.common.tile.TileLegacyMachineBase;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -84,8 +86,8 @@ public class TileController extends TileLegacyMachineBase {
 		}
 
 		//This is a client side only mod, so this should be fine I guess
-		ClientHudRenderer.totalCount = zombies.size() + villagers.size();
-		ClientHudRenderer.savedCount = villagers.size();
+		GameContoller.totalCount = zombies.size() + villagers.size();
+		GameContoller.savedCount = villagers.size();
 
 
 		if (zombies.isEmpty()) {
@@ -144,6 +146,15 @@ public class TileController extends TileLegacyMachineBase {
 				zombieVillager.setDead();
 
 				NetworkManager.sendToAllAround(new PacketSpawnSmoke(newVillager.getPos()), new NetworkRegistry.TargetPoint(world.provider.getDimension(), newVillager.posX, newVillager.posY, newVillager.posZ, 64));
+
+				HttpExecutorService.queue(() -> {
+					try {
+						ZombieSave.put(new ZombieSave(TimerHandler.getStoppedTime(), "zombie" + villagers.size()));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				});
+
 				break;
 			}
 		}

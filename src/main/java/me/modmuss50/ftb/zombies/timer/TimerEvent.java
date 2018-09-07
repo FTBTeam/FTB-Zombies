@@ -1,5 +1,6 @@
 package me.modmuss50.ftb.zombies.timer;
 
+import me.modmuss50.ftb.zombies.GameContoller;
 import me.modmuss50.ftb.zombies.PacketFinishRun;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.event.world.WorldEvent;
@@ -18,8 +19,8 @@ public class TimerEvent {
 	public static void worldLoadEvent(WorldEvent.Load event){
 		TimerHandler.reset();
 		hasFinished = false;
-		ClientHudRenderer.savedCount = 0;
-		ClientHudRenderer.totalCount = 0;
+		GameContoller.savedCount = 0;
+		GameContoller.totalCount = 0;
 	}
 
 	@SubscribeEvent
@@ -34,10 +35,10 @@ public class TimerEvent {
 	@SubscribeEvent
 	public static void worldTick(TickEvent.WorldTickEvent event) {
 		long timeLeft = Timer.maxTime - TimerHandler.getTimeDifference();
-		if ((timeLeft <= 0 || (ClientHudRenderer.totalCount != 0 && ClientHudRenderer.savedCount != 0 && ClientHudRenderer.savedCount == ClientHudRenderer.totalCount) ) && !hasFinished) {
+		if ((timeLeft <= 0 || (GameContoller.totalCount != 0 && GameContoller.savedCount != 0 && GameContoller.savedCount == GameContoller.totalCount)) && !hasFinished) {
 			hasFinished = true;
 			TimerHandler.stop();
-			NetworkManager.sendToAll(new PacketFinishRun(ClientHudRenderer.savedCount, ClientHudRenderer.totalCount, TimerHandler.getTimeDifference()));
+			NetworkManager.sendToAll(new PacketFinishRun(GameContoller.savedCount, GameContoller.totalCount, TimerHandler.getTimeDifference()));
 		}
 	}
 
