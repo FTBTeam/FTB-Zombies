@@ -40,7 +40,7 @@ public class GuiGameOver extends GuiScreen {
 
 		this.drawCenteredString(fontRenderer, "Well done you saved:", this.width / 2, 100, Color.WHITE.getRGB());
 		this.drawCenteredString(fontRenderer, saved + " out of " + total + " villagers from the zombies", this.width / 2, 110, Color.GREEN.getRGB());
-		this.drawCenteredString(fontRenderer, "In " + TimerHandler.getNiceTimeFromLong(Timer.maxTime - time), this.width / 2, 120, Color.YELLOW.getRGB());
+		this.drawCenteredString(fontRenderer, "In " + TimerHandler.getNiceTimeFromLong(time), this.width / 2, 120, Color.YELLOW.getRGB());
 	}
 
 	@Override

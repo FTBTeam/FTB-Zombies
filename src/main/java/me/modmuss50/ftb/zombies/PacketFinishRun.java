@@ -28,12 +28,14 @@ public class PacketFinishRun implements INetworkPacket<PacketFinishRun> {
 	public void writeData(ExtendedPacketBuffer extendedPacketBuffer) throws IOException {
 		extendedPacketBuffer.writeInt(saved);
 		extendedPacketBuffer.writeInt(total);
+		extendedPacketBuffer.writeLong(time);
 	}
 
 	@Override
 	public void readData(ExtendedPacketBuffer extendedPacketBuffer) throws IOException {
 		saved = extendedPacketBuffer.readInt();
 		total = extendedPacketBuffer.readInt();
+		time = extendedPacketBuffer.readLong();
 	}
 
 	@Override
