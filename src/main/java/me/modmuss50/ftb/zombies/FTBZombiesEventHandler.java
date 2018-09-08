@@ -3,6 +3,13 @@ package me.modmuss50.ftb.zombies;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
+import net.minecraft.entity.ai.EntityAITasks;
+import net.minecraft.entity.monster.EntityZombieVillager;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -18,6 +25,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import reborncore.common.network.RegisterPacketEvent;
+
+import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = FTBZombies.MOD_ID)
 public class FTBZombiesEventHandler {
@@ -66,6 +75,23 @@ public class FTBZombiesEventHandler {
 					player.moveRelative(0F, 1F, speed, 0F);
 				}
 			}
+		} else if (event.getEntity() instanceof EntityZombieVillager){
+			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAINearestAttackableTarget);
+		} else if (event.getEntity() instanceof EntityVillager){
+			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAIAvoidEntity);
+		}
+	}
+
+	private static void removeTask(EntityLiving entityLiving, Predicate<EntityAIBase> predicate) {
+		EntityAIBase aiBase = null;
+		for (EntityAITasks.EntityAITaskEntry task : entityLiving.targetTasks.taskEntries) {
+			if (predicate.test(task.action)) {
+				aiBase = task.action;
+				break;
+			}
+		}
+		if (aiBase != null) {
+			entityLiving.targetTasks.removeTask(aiBase);
 		}
 	}
 
