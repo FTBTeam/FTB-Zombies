@@ -13,7 +13,7 @@ public class GameContoller {
 	public static int eggCount = 0;
 	public static boolean hasFinished = false;
 	public static int savedCount;
-	public static int totalCount;
+	public static int totalCount = 6;
 	public static IDRequest idRequest;
 	public static String macAddr;
 

@@ -85,11 +85,6 @@ public class TileController extends TileLegacyMachineBase {
 			}
 		}
 
-		//This is a client side only mod, so this should be fine I guess
-		GameContoller.totalCount = zombies.size() + villagers.size();
-		GameContoller.savedCount = villagers.size();
-
-
 		if (zombies.isEmpty()) {
 			return;
 		}
@@ -144,6 +139,8 @@ public class TileController extends TileLegacyMachineBase {
 				}
 
 				zombieVillager.setDead();
+
+				GameContoller.savedCount++;
 
 				NetworkManager.sendToAllAround(new PacketSpawnSmoke(newVillager.getPos()), new NetworkRegistry.TargetPoint(world.provider.getDimension(), newVillager.posX, newVillager.posY, newVillager.posZ, 64));
 

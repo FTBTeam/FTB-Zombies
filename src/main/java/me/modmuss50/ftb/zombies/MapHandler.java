@@ -20,7 +20,6 @@ public class MapHandler {
 		GameContoller.setIdRequest(null);
 
 		GameContoller.savedCount = 0;
-		GameContoller.totalCount = 0;
 
 		GameContoller.hasFinished = false;
 		try {

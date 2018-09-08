@@ -17,6 +17,7 @@ public class PacketFinishRun implements INetworkPacket<PacketFinishRun> {
 
 	public PacketFinishRun(int saved, int total, long time) {
 		this.saved = saved;
+		this.total = total;
 		this.time = time;
 	}
 

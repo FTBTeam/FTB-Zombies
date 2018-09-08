@@ -20,7 +20,6 @@ public class TimerEvent {
 		TimerHandler.reset();
 		hasFinished = false;
 		GameContoller.savedCount = 0;
-		GameContoller.totalCount = 0;
 	}
 
 	@SubscribeEvent
