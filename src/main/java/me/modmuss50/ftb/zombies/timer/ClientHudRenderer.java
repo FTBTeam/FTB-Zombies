@@ -27,7 +27,6 @@ public class ClientHudRenderer {
 	private static RenderGameOverlayEvent.ElementType[] disabled = new RenderGameOverlayEvent.ElementType[] {
 		RenderGameOverlayEvent.ElementType.BOSSHEALTH,
 		RenderGameOverlayEvent.ElementType.BOSSINFO,
-		RenderGameOverlayEvent.ElementType.HEALTH,
 		RenderGameOverlayEvent.ElementType.FOOD,
 		RenderGameOverlayEvent.ElementType.AIR,
 		RenderGameOverlayEvent.ElementType.EXPERIENCE,

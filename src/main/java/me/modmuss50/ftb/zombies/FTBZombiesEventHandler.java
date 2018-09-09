@@ -60,7 +60,6 @@ public class FTBZombiesEventHandler {
 
 	@SubscribeEvent
 	public static void setHealth(TickEvent.PlayerTickEvent event){
-		event.player.setHealth(100);
 		event.player.getFoodStats().setFoodLevel(20);
 		event.player.getFoodStats().setFoodSaturationLevel(10F);
 	}
