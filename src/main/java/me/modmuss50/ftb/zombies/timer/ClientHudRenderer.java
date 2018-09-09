@@ -29,8 +29,7 @@ public class ClientHudRenderer {
 		RenderGameOverlayEvent.ElementType.BOSSINFO,
 		RenderGameOverlayEvent.ElementType.FOOD,
 		RenderGameOverlayEvent.ElementType.AIR,
-		RenderGameOverlayEvent.ElementType.EXPERIENCE,
-		RenderGameOverlayEvent.ElementType.HEALTHMOUNT
+		RenderGameOverlayEvent.ElementType.EXPERIENCE
 	};
 
 	private ArrayList<RenderGameOverlayEvent.ElementType> disabledList;
