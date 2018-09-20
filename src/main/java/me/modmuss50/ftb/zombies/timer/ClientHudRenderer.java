@@ -22,14 +22,13 @@ public class ClientHudRenderer {
 
 	public static int clientTick = 0;
 
-
-
 	private static RenderGameOverlayEvent.ElementType[] disabled = new RenderGameOverlayEvent.ElementType[] {
 		RenderGameOverlayEvent.ElementType.BOSSHEALTH,
 		RenderGameOverlayEvent.ElementType.BOSSINFO,
 		RenderGameOverlayEvent.ElementType.FOOD,
 		RenderGameOverlayEvent.ElementType.AIR,
-		RenderGameOverlayEvent.ElementType.EXPERIENCE
+		RenderGameOverlayEvent.ElementType.EXPERIENCE,
+		RenderGameOverlayEvent.ElementType.POTION_ICONS
 	};
 
 	private ArrayList<RenderGameOverlayEvent.ElementType> disabledList;

@@ -1,5 +1,6 @@
 package me.modmuss50.ftb.zombies.guiTweaks;
 
+import me.modmuss50.ftb.zombies.FTBZombiesConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraftforge.client.event.GuiScreenEvent;
@@ -10,6 +11,9 @@ public class GuiEventHandler {
 
 	@SubscribeEvent
 	public static void initGui(GuiScreenEvent.InitGuiEvent.Post event) {
+		if(!FTBZombiesConfig.convention){
+			return;
+		}
 		if (event.getGui() instanceof GuiMainMenu) {
 			if (!event.getButtonList().isEmpty()) {
 				GuiButton singlePlayerButton = event.getButtonList().stream().filter(guiButton -> guiButton.id == 1).findFirst().orElse(null);
@@ -40,6 +44,9 @@ public class GuiEventHandler {
 
 	@SubscribeEvent
 	public static void actionPeformedEvent(GuiScreenEvent.ActionPerformedEvent event) {
+		if(!FTBZombiesConfig.convention){
+			return;
+		}
 		if (event.getGui() instanceof GuiMainMenu) {
 			if (event.getButton().id == 1) {
 				Minecraft.getMinecraft().displayGuiScreen(new GuiPlay());
@@ -50,6 +57,9 @@ public class GuiEventHandler {
 
 	@SubscribeEvent
 	public static void keyboardInput(GuiScreenEvent.KeyboardInputEvent.Pre event) {
+		if(!FTBZombiesConfig.convention){
+			return;
+		}
 		if (event.getGui() instanceof GuiMainMenu) {
 			if (Keyboard.getEventCharacter() == 'o') {
 				Minecraft.getMinecraft().displayGuiScreen(new GuiOptions(event.getGui(), Minecraft.getMinecraft().gameSettings));

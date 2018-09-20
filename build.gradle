@@ -32,7 +32,7 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 
-version = "1.12.2-1.0.0"
+version = "1.12.2-2.0.0"
 
 def ENV = System.getenv()
 if (ENV.BUILD_NUMBER) {
@@ -84,7 +84,7 @@ dependencies {
 }
 
 jar {
-	classifier = 'convention'
+	classifier = 'universal'
 	manifest {
 		attributes 'FMLAT': 'ftbbattles_at.cfg'
 		attributes 'FMLCorePlugin': 'me.modmuss50.ftbbattles.asm.LoadingPlugin'

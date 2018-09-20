@@ -1,6 +1,5 @@
 package me.modmuss50.ftb.zombies;
 
-import me.modmuss50.ftb.zombies.timer.Timer;
 import me.modmuss50.ftb.zombies.timer.TimerHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

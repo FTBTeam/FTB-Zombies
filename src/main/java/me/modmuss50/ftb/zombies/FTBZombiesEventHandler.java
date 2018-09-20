@@ -1,8 +1,8 @@
 package me.modmuss50.ftb.zombies;
 
-import net.minecraft.block.Block;
+import me.modmuss50.ftb.zombies.api.ZombieSave;
+import me.modmuss50.ftb.zombies.timer.TimerHandler;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -11,51 +11,26 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraft.init.MobEffects;
+import net.minecraft.potion.PotionEffect;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import reborncore.common.network.NetworkManager;
 import reborncore.common.network.RegisterPacketEvent;
 
+import java.io.IOException;
 import java.util.function.Predicate;
 
 @Mod.EventBusSubscriber(modid = FTBZombies.MOD_ID)
 public class FTBZombiesEventHandler {
-	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> event) {
-		event.getRegistry().register(new BlockController().setRegistryName("controller").setUnlocalizedName(FTBZombies.MOD_ID + ".controller").setCreativeTab(CreativeTabs.TOOLS));
-		GameRegistry.registerTileEntity(TileController.class, new ResourceLocation(FTBZombies.MOD_ID, "controller"));
-	}
-
-	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
-		event.getRegistry().register(new ItemBlock(FTBZombiesBlocks.CONTROLLER).setRegistryName("controller"));
-	}
 
 	@SubscribeEvent
 	public static void registerPackets(RegisterPacketEvent event) {
 		event.registerPacket(PacketSpawnSmoke.class, Side.CLIENT);
-	}
-
-	@SubscribeEvent
-	public static void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-		if(!event.player.getEntityData().getBoolean("PlayedLoginSound")) {
-			SoundEvent soundEvent = SoundEvent.REGISTRY.getObject(new ResourceLocation(FTBZombiesConfig.general.login));
-
-			if (soundEvent != null) {
-				event.player.world.playSound(null, event.player.getPosition(), soundEvent, SoundCategory.PLAYERS, 1F, 1F);
-				event.player.getEntityData().setBoolean("PlayedLoginSound", true);
-			}
-		}
 	}
 
 	@SubscribeEvent
@@ -74,11 +49,51 @@ public class FTBZombiesEventHandler {
 					player.moveRelative(0F, 1F, speed, 0F);
 				}
 			}
-		} else if (event.getEntity() instanceof EntityZombieVillager){
+			if(((EntityPlayer) event.getEntity()).isPotionActive(MobEffects.STRENGTH)){
+				((EntityPlayer) event.getEntity()).removePotionEffect(MobEffects.STRENGTH);
+			}
+		} else if (event.getEntity() instanceof EntityZombieVillager && !event.getEntity().world.isRemote){
 			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAINearestAttackableTarget);
+			EntityZombieVillager zombieVillager = (EntityZombieVillager) event.getEntity();
+
+			zombieVillager.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 60));
+			zombieVillager.enablePersistence();
+			zombieVillager.setAlwaysRenderNameTag(true);
+			zombieVillager.setProfession(1);
+
+			if(zombieVillager.isPotionActive(MobEffects.STRENGTH)){ //Wait for the splash potion to be active, and then cure the zombie
+				cure(zombieVillager);
+			}
 		} else if (event.getEntity() instanceof EntityVillager){
 			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAIAvoidEntity);
 		}
+	}
+
+	private static void cure(EntityZombieVillager zombieVillager){
+		EntityVillager newVillager = new EntityVillager(zombieVillager.world);
+		newVillager.setProfession(zombieVillager.getForgeProfession());
+		newVillager.setLocationAndAngles(zombieVillager.posX, zombieVillager.posY, zombieVillager.posZ, zombieVillager.rotationYaw, zombieVillager.rotationPitch);
+		if (zombieVillager.hasCustomName())
+		{
+			newVillager.setCustomNameTag(zombieVillager.getCustomNameTag());
+			newVillager.setAlwaysRenderNameTag(true);
+		}
+		zombieVillager.world.spawnEntity(newVillager);
+		newVillager.enablePersistence();
+
+		zombieVillager.setDead();
+
+		GameContoller.savedCount++;
+
+		NetworkManager.sendToAllAround(new PacketSpawnSmoke(newVillager.getPos()), new NetworkRegistry.TargetPoint(zombieVillager.world.provider.getDimension(), newVillager.posX, newVillager.posY, newVillager.posZ, 64));
+
+		HttpExecutorService.queue(() -> {
+			try {
+				ZombieSave.put(new ZombieSave(TimerHandler.getStoppedTime(), "zombie" + GameContoller.savedCount));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 	private static void removeTask(EntityLiving entityLiving, Predicate<EntityAIBase> predicate) {

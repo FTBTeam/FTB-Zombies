@@ -45,7 +45,7 @@ public class GameContoller {
 	}
 
 	public static String getAPI() {
-		return FTBZombiesConfig.general.api_url;
+		return FTBZombiesConfig.api_url;
 	}
 
 	public static String getMac() throws UnknownHostException, SocketException {
