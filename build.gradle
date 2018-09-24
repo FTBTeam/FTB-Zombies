@@ -18,15 +18,21 @@ buildscript {
 			name = 'mojang'
 			url = 'https://libraries.minecraft.net/'
 		}
+		maven {
+			name = "CB Repo"
+			url = "http://chickenbones.net/maven"
+		}
 	}
 	dependencies {
 		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath 'net.covers1624:GradleStuff:1.0-SNAPSHOT'
 	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 apply plugin: 'maven-publish'
+apply plugin: 'net.covers1624.contained-deps'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -67,6 +73,16 @@ processResources {
 
 }
 
+containedDeps {
+	configuration = "pack"
+	tasks = "jar"
+}
+
+configurations {
+	pack
+	compile.extendsFrom pack
+}
+
 repositories {
 	maven {
 		name = "Modmuss50"
@@ -81,13 +97,14 @@ dependencies {
 	deobfCompile('TechReborn:TechReborn-1.12.2:+:universal') {
 		transitive = false
 	}
+	compile 'org.javassist:javassist:3.23.1-GA'
+	pack 'me.modmuss50:Fusion-Legacy:+'
 }
 
 jar {
 	classifier = 'universal'
 	manifest {
-		attributes 'FMLAT': 'ftbbattles_at.cfg'
-		attributes 'FMLCorePlugin': 'me.modmuss50.ftbbattles.asm.LoadingPlugin'
+		attributes 'FMLCorePlugin': 'me.modmuss50.ftb.zombies.FTBZombiesCore'
 		attributes 'FMLCorePluginContainsFMLMod': 'true'
 	}
 }
