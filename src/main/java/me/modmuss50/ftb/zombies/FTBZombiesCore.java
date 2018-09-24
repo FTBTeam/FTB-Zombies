@@ -1,7 +1,10 @@
 package me.modmuss50.ftb.zombies;
 
+import javassist.LoaderClassPath;
 import me.modmuss50.ftb.zombies.mixin.ZombieMixinProvider;
 import me.modmuss50.fusion.MixinManager;
+import me.modmuss50.fusion.transformer.MixinTransformer;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.classloading.FMLForgePlugin;
 import net.minecraftforge.fml.common.asm.transformers.deobf.FMLDeobfuscatingRemapper;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
@@ -25,9 +28,11 @@ public class FTBZombiesCore implements IFMLLoadingPlugin {
     public String[] getASMTransformerClass() {
         if(!setup){
             setup = true;
+            MixinManager.logger.info("Setting up fusion environment");
             MixinManager.registerMixinProvicer(ZombieMixinProvider.class);
             MixinManager.RUNTIME_DEOBF = FMLForgePlugin.RUNTIME_DEOBF;
             MixinManager.methodRemapper = FMLDeobfuscatingRemapper.INSTANCE::mapMethodName;
+            MixinTransformer.cp.appendClassPath(new LoaderClassPath(Launch.classLoader));
         }
         return new String[]{"me.modmuss50.fusion.transformer.MixinTransformer"};
     }
