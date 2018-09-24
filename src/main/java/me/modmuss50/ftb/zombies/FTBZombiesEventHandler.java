@@ -25,7 +25,6 @@ import reborncore.common.network.RegisterPacketEvent;
 import java.io.IOException;
 import java.util.function.Predicate;
 
-@Mod.EventBusSubscriber(modid = FTBZombies.MOD_ID)
 public class FTBZombiesEventHandler {
 
 	@SubscribeEvent

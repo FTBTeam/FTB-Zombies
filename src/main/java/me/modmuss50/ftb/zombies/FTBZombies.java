@@ -22,8 +22,11 @@ public class FTBZombies {
 	public void preInit(FMLPreInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(TimerEvent.class);
-		MinecraftForge.EVENT_BUS.register(new ClientHudRenderer());
-		MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
+		if(FTBZombiesConfig.convention){
+			MinecraftForge.EVENT_BUS.register(new ClientHudRenderer());
+			MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
+			MinecraftForge.EVENT_BUS.register(FTBZombiesEventHandler.class);
+		}
 	}
 
 	public void server(FMLServerStartingEvent event){
