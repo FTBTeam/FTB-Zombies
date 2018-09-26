@@ -1,5 +1,6 @@
 package me.modmuss50.ftb.zombies.timer;
 
+import me.modmuss50.ftb.zombies.FTBZombiesConfig;
 import me.modmuss50.ftb.zombies.GameContoller;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -31,22 +32,21 @@ public class ClientHudRenderer {
 		RenderGameOverlayEvent.ElementType.POTION_ICONS
 	};
 
-	private ArrayList<RenderGameOverlayEvent.ElementType> disabledList;
-
-	public ClientHudRenderer() {
-		disabledList = new ArrayList<>(Arrays.asList(disabled));
-	}
+	private static ArrayList<RenderGameOverlayEvent.ElementType> disabledList=  new ArrayList<>(Arrays.asList(disabled));
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void clientTick(TickEvent.ClientTickEvent event) {
+	public static void clientTick(TickEvent.ClientTickEvent event) {
 		clientTick++;
 	}
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public void renderGameEvent(RenderGameOverlayEvent.Post event) {
+	public static void renderGameEvent(RenderGameOverlayEvent.Post event) {
 		if (event.getType() != RenderGameOverlayEvent.ElementType.ALL) {
+			return;
+		}
+		if(!FTBZombiesConfig.convention){
 			return;
 		}
 		Minecraft minecraft = Minecraft.getMinecraft();
@@ -72,7 +72,7 @@ public class ClientHudRenderer {
 	}
 
 	@SubscribeEvent
-	public void renderOverlay(RenderGameOverlayEvent event) {
+	public static void renderOverlay(RenderGameOverlayEvent event) {
 		if (disabledList.contains(event.getType())) {
 			event.setCanceled(true);
 		}

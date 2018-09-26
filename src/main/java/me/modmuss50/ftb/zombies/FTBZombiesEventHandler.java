@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import reborncore.common.network.NetworkManager;
 import reborncore.common.network.RegisterPacketEvent;
 
@@ -32,14 +33,21 @@ public class FTBZombiesEventHandler {
 		event.registerPacket(PacketSpawnSmoke.class, Side.CLIENT);
 	}
 
+	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void setHealth(TickEvent.PlayerTickEvent event){
+		if(!FTBZombiesConfig.convention){
+			return;
+		}
 		event.player.getFoodStats().setFoodLevel(20);
 		event.player.getFoodStats().setFoodSaturationLevel(10F);
 	}
 
 	@SubscribeEvent
 	public static void worldUpdate(TickEvent.WorldTickEvent event){
+		if(!FTBZombiesConfig.convention){
+			return;
+		}
 		if(event.world.isRemote || event.world.provider.getDimension() != 0 || event.phase == TickEvent.Phase.START){
 			return;
 		}
@@ -90,6 +98,10 @@ public class FTBZombiesEventHandler {
 		newVillager.enablePersistence();
 
 		zombieVillager.setDead();
+
+		if(!FTBZombiesConfig.convention){
+			return;
+		}
 
 		GameContoller.savedCount++;
 

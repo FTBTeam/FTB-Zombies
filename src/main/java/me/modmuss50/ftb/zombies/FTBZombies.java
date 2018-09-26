@@ -6,6 +6,7 @@ import me.modmuss50.ftb.zombies.timer.ClientHudRenderer;
 import me.modmuss50.ftb.zombies.timer.PacketSendTimerData;
 import me.modmuss50.ftb.zombies.timer.TimerEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
@@ -22,11 +23,11 @@ public class FTBZombies {
 	public void preInit(FMLPreInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(TimerEvent.class);
-		if(FTBZombiesConfig.convention){
-			MinecraftForge.EVENT_BUS.register(new ClientHudRenderer());
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+			MinecraftForge.EVENT_BUS.register(ClientHudRenderer.class);
 			MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
-			MinecraftForge.EVENT_BUS.register(FTBZombiesEventHandler.class);
 		}
+		MinecraftForge.EVENT_BUS.register(FTBZombiesEventHandler.class);
 	}
 
 	public void server(FMLServerStartingEvent event){
