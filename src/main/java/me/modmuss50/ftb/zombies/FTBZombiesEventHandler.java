@@ -11,11 +11,17 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.PotionTypes;
+import net.minecraft.item.ItemSplashPotion;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionUtils;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -68,9 +74,11 @@ public class FTBZombiesEventHandler {
 			if(((EntityPlayer) event.getEntity()).isPotionActive(MobEffects.STRENGTH)){
 				((EntityPlayer) event.getEntity()).removePotionEffect(MobEffects.STRENGTH);
 			}
+			player.setHealth(20F);
 		} else if (event.getEntity() instanceof EntityZombieVillager && !event.getEntity().world.isRemote){
 			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAINearestAttackableTarget);
 			EntityZombieVillager zombieVillager = (EntityZombieVillager) event.getEntity();
+			zombieVillager.setHealth(20F);
 
 			zombieVillager.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 60));
 			zombieVillager.enablePersistence();
@@ -82,6 +90,7 @@ public class FTBZombiesEventHandler {
 			}
 		} else if (event.getEntity() instanceof EntityVillager){
 			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAIAvoidEntity);
+			event.getEntityLiving().setHealth(20F);
 		}
 	}
 
@@ -126,6 +135,19 @@ public class FTBZombiesEventHandler {
 		}
 		if (aiBase != null) {
 			entityLiving.targetTasks.removeTask(aiBase);
+		}
+	}
+
+	@SubscribeEvent
+	public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) throws IOException {
+		event.player.inventory.clear();
+		event.player.inventory.addItemStackToInventory(PotionUtils.addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.STRENGTH));
+	}
+
+	@SubscribeEvent
+	public static void playerRightClick(PlayerInteractEvent event){
+		if(event.getItemStack().getItem() instanceof ItemSplashPotion && !event.getEntityPlayer().isCreative()){
+			event.getItemStack().setCount(2);
 		}
 	}
 

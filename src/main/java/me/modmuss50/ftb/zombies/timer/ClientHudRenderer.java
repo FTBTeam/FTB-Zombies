@@ -29,10 +29,12 @@ public class ClientHudRenderer {
 		RenderGameOverlayEvent.ElementType.FOOD,
 		RenderGameOverlayEvent.ElementType.AIR,
 		RenderGameOverlayEvent.ElementType.EXPERIENCE,
-		RenderGameOverlayEvent.ElementType.POTION_ICONS
+		RenderGameOverlayEvent.ElementType.POTION_ICONS,
+		RenderGameOverlayEvent.ElementType.HEALTH,
+		RenderGameOverlayEvent.ElementType.HEALTHMOUNT
 	};
 
-	private static ArrayList<RenderGameOverlayEvent.ElementType> disabledList=  new ArrayList<>(Arrays.asList(disabled));
+	private static ArrayList<RenderGameOverlayEvent.ElementType> disabledList =  new ArrayList<>(Arrays.asList(disabled));
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
