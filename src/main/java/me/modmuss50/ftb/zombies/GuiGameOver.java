@@ -12,12 +12,10 @@ import java.io.IOException;
 
 public class GuiGameOver extends GuiScreen {
 	int saved;
-	int total;
 	long time;
 
-	public GuiGameOver(int saved, int total, long time) {
+	public GuiGameOver(int saved, long time) {
 		this.saved = saved;
-		this.total = total;
 		this.time = time;
 	}
 
@@ -38,7 +36,7 @@ public class GuiGameOver extends GuiScreen {
 		this.drawCenteredString(fontRenderer, "Game Over!", this.width / 2, 10, Color.RED.getRGB());
 
 		this.drawCenteredString(fontRenderer, "Well done you saved:", this.width / 2, 100, Color.WHITE.getRGB());
-		this.drawCenteredString(fontRenderer, saved + " out of " + total + " villagers from the zombies", this.width / 2, 110, Color.GREEN.getRGB());
+		this.drawCenteredString(fontRenderer, saved + " villagers from the zombies", this.width / 2, 110, Color.GREEN.getRGB());
 		this.drawCenteredString(fontRenderer, "In " + TimerHandler.getNiceTimeFromLong(time), this.width / 2, 120, Color.YELLOW.getRGB());
 	}
 

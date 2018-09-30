@@ -34,10 +34,10 @@ public class TimerEvent {
 	@SubscribeEvent
 	public static void worldTick(TickEvent.WorldTickEvent event) {
 		long timeLeft = Timer.maxTime - TimerHandler.getTimeDifference();
-		if ((timeLeft <= 0 || (GameContoller.totalCount != 0 && GameContoller.savedCount != 0 && GameContoller.savedCount == GameContoller.totalCount)) && !hasFinished) {
+		if (timeLeft <= 0 && !hasFinished) {
 			hasFinished = true;
 			TimerHandler.stop();
-			NetworkManager.sendToAll(new PacketFinishRun(GameContoller.savedCount, GameContoller.totalCount, TimerHandler.getTimeDifference()));
+			NetworkManager.sendToAll(new PacketFinishRun(GameContoller.savedCount, TimerHandler.getTimeDifference()));
 		}
 	}
 

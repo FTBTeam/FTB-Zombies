@@ -50,18 +50,6 @@ public class FTBZombiesEventHandler {
 	}
 
 	@SubscribeEvent
-	public static void worldUpdate(TickEvent.WorldTickEvent event){
-		if(!FTBZombiesConfig.convention){
-			return;
-		}
-		if(event.world.isRemote || event.world.provider.getDimension() != 0 || event.phase == TickEvent.Phase.START){
-			return;
-		}
-		int count = (int) event.world.getLoadedEntityList().stream().filter(entity -> entity instanceof EntityZombieVillager || entity instanceof EntityVillager).count();
-		GameContoller.totalCount = count;
-	}
-
-	@SubscribeEvent
 	public static void livingUpdate(LivingEvent.LivingUpdateEvent event) {
 		if (event.getEntity() instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) event.getEntity();

@@ -69,7 +69,7 @@ public class ClientHudRenderer {
 
 		FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 		fontRenderer.drawString("Remaining Time: " + Timer.getNiceTimeLeft(), xPos + 5, yPos + 1, Color.WHITE.getRGB());
-		fontRenderer.drawString("Saved zombies: " + GameContoller.savedCount + "/" + GameContoller.totalCount, xPos + 8, yPos + 11, Color.WHITE.getRGB());
+		fontRenderer.drawString("Zombies Cured: " + GameContoller.savedCount, xPos + 8, yPos + 11, Color.WHITE.getRGB());
 
 	}
 
