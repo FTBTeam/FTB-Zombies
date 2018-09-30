@@ -34,7 +34,7 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
         if (villagers.size() < 4) {
             int amountToSpawn = 4 - villagers.size();
             for (int i = 0; i < amountToSpawn; i++) {
-                BlockPos spawnPos = getPos().offset(EnumFacing.HORIZONTALS[world.rand.nextInt(4)], world.rand.nextInt(10));
+                BlockPos spawnPos = getPos().offset(EnumFacing.HORIZONTALS[world.rand.nextInt(4)], world.rand.nextInt(4));
                 EntityZombieVillager entityZombieVillager = new EntityZombieVillager(world);
                 entityZombieVillager.setLocationAndAngles(spawnPos.getX(), world.getTopSolidOrLiquidBlock(spawnPos).getY(), spawnPos.getZ(), 0, 0);
                 world.spawnEntity(entityZombieVillager);
