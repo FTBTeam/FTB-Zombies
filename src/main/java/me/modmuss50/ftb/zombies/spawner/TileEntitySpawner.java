@@ -36,7 +36,13 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
             for (int i = 0; i < amountToSpawn; i++) {
                 BlockPos spawnPos = getPos().offset(EnumFacing.HORIZONTALS[world.rand.nextInt(4)], world.rand.nextInt(4));
                 EntityZombieVillager entityZombieVillager = new EntityZombieVillager(world);
-                entityZombieVillager.setLocationAndAngles(spawnPos.getX(), world.getTopSolidOrLiquidBlock(spawnPos).getY(), spawnPos.getZ(), 0, 0);
+
+                int posY = spawnPos.getY();
+                while(!world.isAirBlock(new BlockPos(spawnPos.getX(), posY, spawnPos.getZ()))){
+                    posY++;
+                }
+
+                entityZombieVillager.setLocationAndAngles(spawnPos.getX(), posY, spawnPos.getZ(), 0, 0);
                 world.spawnEntity(entityZombieVillager);
             }
             cooldown = 30 * 20; //Wait 30 seconds before trying again
