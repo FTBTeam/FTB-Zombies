@@ -78,7 +78,6 @@ public class FTBZombiesEventHandler {
 		} else if (event.getEntity() instanceof EntityZombieVillager && !event.getEntity().world.isRemote){
 			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAINearestAttackableTarget);
 			EntityZombieVillager zombieVillager = (EntityZombieVillager) event.getEntity();
-			zombieVillager.setHealth(20F);
 
 			zombieVillager.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 60));
 			zombieVillager.enablePersistence();
@@ -90,7 +89,6 @@ public class FTBZombiesEventHandler {
 			}
 		} else if (event.getEntity() instanceof EntityVillager){
 			removeTask((EntityLiving) event.getEntityLiving(), entityAIBase -> entityAIBase instanceof EntityAIAvoidEntity);
-			event.getEntityLiving().setHealth(20F);
 		}
 	}
 

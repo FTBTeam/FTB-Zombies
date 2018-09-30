@@ -2,16 +2,21 @@ package me.modmuss50.ftb.zombies;
 
 import me.modmuss50.ftb.zombies.commands.FTBZCommand;
 import me.modmuss50.ftb.zombies.guiTweaks.GuiEventHandler;
+import me.modmuss50.ftb.zombies.spawner.BlockSpawner;
+import me.modmuss50.ftb.zombies.spawner.TileEntitySpawner;
 import me.modmuss50.ftb.zombies.timer.ClientHudRenderer;
 import me.modmuss50.ftb.zombies.timer.PacketSendTimerData;
 import me.modmuss50.ftb.zombies.timer.TimerEvent;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
+import reborncore.RebornRegistry;
 import reborncore.common.network.RegisterPacketEvent;
 
 @Mod(modid = FTBZombies.MOD_ID, name = "FTB-Zombies", dependencies = "required-after:reborncore;required-after:techreborn")
@@ -28,6 +33,10 @@ public class FTBZombies {
 			MinecraftForge.EVENT_BUS.register(GuiEventHandler.class);
 		}
 		MinecraftForge.EVENT_BUS.register(FTBZombiesEventHandler.class);
+
+		BlockSpawner spawner = new BlockSpawner();
+		RebornRegistry.registerBlock(spawner, new ResourceLocation(MOD_ID, "spawner"));
+		GameRegistry.registerTileEntity(TileEntitySpawner.class, new ResourceLocation(MOD_ID, "spawner"));
 	}
 
 	public void server(FMLServerStartingEvent event){
