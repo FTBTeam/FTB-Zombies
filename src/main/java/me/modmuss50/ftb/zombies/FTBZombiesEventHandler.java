@@ -72,6 +72,7 @@ public class FTBZombiesEventHandler {
 			zombieVillager.enablePersistence();
 			zombieVillager.setAlwaysRenderNameTag(true);
 			zombieVillager.setProfession(1);
+			zombieVillager.setChild(false);
 
 			if(zombieVillager.isPotionActive(MobEffects.STRENGTH)){ //Wait for the splash potion to be active, and then cure the zombie
 				cure(zombieVillager);

@@ -45,6 +45,7 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
                 }
 
                 EntityZombieVillager entityZombieVillager = new EntityZombieVillager(world);
+                entityZombieVillager.setChild(false);
                 entityZombieVillager.setLocationAndAngles(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
                 world.spawnEntity(entityZombieVillager);
             }
