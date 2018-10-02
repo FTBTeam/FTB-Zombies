@@ -18,6 +18,7 @@ import net.minecraft.item.ItemSplashPotion;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.potion.PotionUtils;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -134,6 +135,22 @@ public class FTBZombiesEventHandler {
 	public static void playerRightClick(PlayerInteractEvent event){
 		if(event.getItemStack().getItem() instanceof ItemSplashPotion && !event.getEntityPlayer().isCreative()){
 			event.getItemStack().setCount(2);
+		}
+	}
+
+	@SubscribeEvent
+	public static void interact(PlayerInteractEvent.EntityInteract event) {
+		if(!event.getEntityPlayer().isCreative()){
+			event.setCanceled(true);
+		}
+	}
+
+	@SubscribeEvent
+	public static void attack(LivingAttackEvent event) {
+		if(event.getSource().getTrueSource() instanceof EntityPlayer){
+			if(!((EntityPlayer) event.getSource().getTrueSource()).isCreative()){
+				event.setCanceled(true);
+			}
 		}
 	}
 
