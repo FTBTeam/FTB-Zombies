@@ -4,7 +4,6 @@ import net.minecraft.entity.monster.EntityZombieVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -34,20 +33,31 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
         if (villagers.size() < 4) {
             int amountToSpawn = 4 - villagers.size();
             for (int i = 0; i < amountToSpawn; i++) {
-                BlockPos spawnPos = getPos().offset(EnumFacing.HORIZONTALS[world.rand.nextInt(4)], world.rand.nextInt(4));
-                EntityZombieVillager entityZombieVillager = new EntityZombieVillager(world);
 
-                int posY = spawnPos.getY();
-                while(!world.isAirBlock(new BlockPos(spawnPos.getX(), posY, spawnPos.getZ()))){
-                    posY++;
+                BlockPos spawnPos = null;
+                while (spawnPos == null || !isSpawnValid(spawnPos)){
+                    spawnPos = getPos().add(world.rand.nextInt(10) - 5, 0, world.rand.nextInt(10) - 5);
+                    int posY = spawnPos.getY();
+                    while(!world.isAirBlock(new BlockPos(spawnPos.getX(), posY, spawnPos.getZ()))){
+                        posY++;
+                        spawnPos = new BlockPos(spawnPos.getX(), posY, spawnPos.getZ());
+                    }
                 }
 
-                entityZombieVillager.setLocationAndAngles(spawnPos.getX(), posY, spawnPos.getZ(), 0, 0);
+                EntityZombieVillager entityZombieVillager = new EntityZombieVillager(world);
+                entityZombieVillager.setLocationAndAngles(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
                 world.spawnEntity(entityZombieVillager);
             }
-            cooldown = 30 * 20; //Wait 30 seconds before trying again
+            cooldown = (world.rand.nextInt(60)) * 20; //Wait a few seconds before trying again
         } else {
-            cooldown = 10 * 20; //Wait 10 seconds before trying again
+            cooldown = 20 * 20; //Wait 20 seconds before trying again
         }
+    }
+
+    private boolean isSpawnValid(BlockPos pos){
+        if(Math.abs(pos.getY() - getPos().getY()) > 10){
+            return false;
+        }
+        return world.isAirBlock(pos) && world.isAirBlock(pos.up());
     }
 }
