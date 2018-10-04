@@ -74,6 +74,8 @@ public class FTBZombiesEventHandler {
 			zombieVillager.setProfession(1);
 			zombieVillager.setChild(false);
 
+			zombieVillager.setBreakDoorsAItask(false);
+
 			if(zombieVillager.isPotionActive(MobEffects.STRENGTH)){ //Wait for the splash potion to be active, and then cure the zombie
 				cure(zombieVillager);
 			}
