@@ -26,7 +26,7 @@ public class TimerEvent {
 	public static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) throws IOException {
 		TimerHandler.syncWith((EntityPlayerMP) event.player);
 		if (!TimerHandler.isActive()) {
-			TimerHandler.startTimer(TimerHandler.getStoppedTime());
+			TimerHandler.reset();
 			TimerHandler.syncWithAll();
 		}
 	}

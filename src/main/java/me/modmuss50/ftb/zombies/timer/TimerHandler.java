@@ -33,11 +33,13 @@ public class TimerHandler {
 		countedTime = startTime;
 		startSystemTime = System.currentTimeMillis();
 		active = true;
+		syncWithAll();
 	}
 
 	public static void stop() {
 		active = false;
 		stoppedTime = getTimeDifference();
+		syncWithAll();
 	}
 
 	public static void reset() {
@@ -45,6 +47,7 @@ public class TimerHandler {
 		countedTime = 0;
 		active = false;
 		stoppedTime = 0;
+		syncWithAll();
 	}
 
 	public static void load(TimerSaveDataFormat format) {

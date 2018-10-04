@@ -31,7 +31,6 @@ public class CommandTimer extends CommandTreeBase {
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		super.execute(server, sender, args);
 		TimerHandler.syncWithAll(); //Just always sync with this command.
-		super.execute(server, sender, args);
 	}
 
 	@Override
