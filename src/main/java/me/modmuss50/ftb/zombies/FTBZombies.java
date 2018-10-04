@@ -3,7 +3,9 @@ package me.modmuss50.ftb.zombies;
 import me.modmuss50.ftb.zombies.commands.FTBZCommand;
 import me.modmuss50.ftb.zombies.guiTweaks.GuiEventHandler;
 import me.modmuss50.ftb.zombies.spawner.BlockSpawner;
+import me.modmuss50.ftb.zombies.spawner.BlockSpawner2;
 import me.modmuss50.ftb.zombies.spawner.TileEntitySpawner;
+import me.modmuss50.ftb.zombies.spawner.TileEntitySpawner2;
 import me.modmuss50.ftb.zombies.timer.ClientHudRenderer;
 import me.modmuss50.ftb.zombies.timer.PacketSendTimerData;
 import me.modmuss50.ftb.zombies.timer.TimerEvent;
@@ -37,6 +39,10 @@ public class FTBZombies {
 		BlockSpawner spawner = new BlockSpawner();
 		RebornRegistry.registerBlock(spawner, new ResourceLocation(MOD_ID, "spawner"));
 		GameRegistry.registerTileEntity(TileEntitySpawner.class, new ResourceLocation(MOD_ID, "spawner"));
+
+		BlockSpawner2 spawner2 = new BlockSpawner2();
+		RebornRegistry.registerBlock(spawner2, new ResourceLocation(MOD_ID, "spawner2"));
+		GameRegistry.registerTileEntity(TileEntitySpawner2.class, new ResourceLocation(MOD_ID, "spawner2"));
 	}
 
 	public void server(FMLServerStartingEvent event){

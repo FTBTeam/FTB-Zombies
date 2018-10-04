@@ -30,8 +30,8 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
             return; //Player too close
         }
         List<EntityZombieVillager> villagers = world.getEntitiesWithinAABB(EntityZombieVillager.class, bb);
-        if (villagers.size() < 4) {
-            int amountToSpawn = 4 - villagers.size();
+        if (villagers.size() < spawnAmount()) {
+            int amountToSpawn = spawnAmount() - villagers.size();
             for (int i = 0; i < amountToSpawn; i++) {
 
                 BlockPos spawnPos = null;
@@ -53,6 +53,10 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
         } else {
             cooldown = 20 * 20; //Wait 20 seconds before trying again
         }
+    }
+
+    public int spawnAmount(){
+        return 4;
     }
 
     private boolean isSpawnValid(BlockPos pos){
