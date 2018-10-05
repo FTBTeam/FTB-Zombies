@@ -49,7 +49,7 @@ public class TileEntitySpawner extends TileEntity implements ITickable {
                 entityZombieVillager.setLocationAndAngles(spawnPos.getX() + 0.5, spawnPos.getY(), spawnPos.getZ() + 0.5, 0, 0);
                 world.spawnEntity(entityZombieVillager);
             }
-            cooldown = (world.rand.nextInt(60)) * 20; //Wait a few seconds before trying again
+            cooldown = (world.rand.nextInt(120) + 120) * 20; //Wait a few seconds before trying again
         } else {
             cooldown = 20 * 20; //Wait 20 seconds before trying again
         }
