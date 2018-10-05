@@ -1,6 +1,5 @@
 package me.modmuss50.ftb.zombies;
 
-import me.modmuss50.ftb.zombies.commands.FTBZCommand;
 import me.modmuss50.ftb.zombies.guiTweaks.GuiEventHandler;
 import me.modmuss50.ftb.zombies.spawner.BlockSpawner;
 import me.modmuss50.ftb.zombies.spawner.BlockSpawner2;
@@ -14,7 +13,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -43,11 +41,6 @@ public class FTBZombies {
 		BlockSpawner2 spawner2 = new BlockSpawner2();
 		RebornRegistry.registerBlock(spawner2, new ResourceLocation(MOD_ID, "spawner2"));
 		GameRegistry.registerTileEntity(TileEntitySpawner2.class, new ResourceLocation(MOD_ID, "spawner2"));
-	}
-
-	@Mod.EventHandler
-	public void server(FMLServerStartingEvent event){
-		event.registerServerCommand(new FTBZCommand());
 	}
 
 
