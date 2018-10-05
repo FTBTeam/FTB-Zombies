@@ -45,6 +45,7 @@ public class FTBZombies {
 		GameRegistry.registerTileEntity(TileEntitySpawner2.class, new ResourceLocation(MOD_ID, "spawner2"));
 	}
 
+	@Mod.EventHandler
 	public void server(FMLServerStartingEvent event){
 		event.registerServerCommand(new FTBZCommand());
 	}
